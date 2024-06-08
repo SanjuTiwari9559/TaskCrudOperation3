@@ -15,6 +15,9 @@ namespace TaskCrudOperation3
             builder.Services.AddControllers();
             builder.Services.AddDbContext<TaskDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("TaskConnection5")));
+            builder.Services.AddScoped<IEmailSender, EmailSender>();
+            builder.Services.AddSignalR();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -34,6 +37,7 @@ namespace TaskCrudOperation3
 
 
             app.MapControllers();
+            app.MapHub<TaskHub>("/taskHub");
 
             app.Run();
         }

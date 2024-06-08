@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskCrudOperation3.Data;
 
@@ -11,9 +12,11 @@ using TaskCrudOperation3.Data;
 namespace TaskCrudOperation3.Migrations
 {
     [DbContext(typeof(TaskDbContext))]
-    partial class TaskDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240531165531_ititial6")]
+    partial class ititial6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,9 +50,8 @@ namespace TaskCrudOperation3.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("TaskName")
                         .IsRequired()
@@ -59,7 +61,7 @@ namespace TaskCrudOperation3.Migrations
 
                     b.HasIndex("AssignedTo");
 
-                    b.ToTable("Tasks", (string)null);
+                    b.ToTable("tasks");
                 });
 
             modelBuilder.Entity("TaskCrudOperation3.Data.User", b =>
@@ -80,7 +82,7 @@ namespace TaskCrudOperation3.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("TaskCrudOperation3.Data.Task", b =>

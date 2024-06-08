@@ -46,59 +46,34 @@ namespace TaskCrudOperation3.Controllers
 
             return new Responce
             {
-                Message ="Task Add S"
+                Message ="Task Add Successfully"
             };
         }
         [HttpPut("{id}")]
-        public Responce PutTask(int id, Task task)
+        public Responce PutTask(int id, UpdateTask task)
         {
-            // Check if the provided id matches the task id
-            if (id != task.Id)
+            var existTask = taskDbContext.tasks.Find(id);
+            if (existTask == null)
             {
                 return new Responce
                 {
-                    Message = "Task ID mismatch"
+                    Message = "Task not assigned"
                 };
             }
-
-            try
+            existTask.TaskName = task.TaskName;
+            existTask.Description = task.Description;
+            existTask.DueDate = task.DueDate;
+            existTask.Priority = task.Priority;
+            existTask.AssignedTo = task.AssignedTo;
+            existTask.Status = task.Status;
+            existTask.IsAccepted = task.IsAccepted;
+            taskDbContext.SaveChanges();
+            return new Responce
             {
-                // Assuming taskDbContext is an instance of TaskDbContext and is properly initialized
-                var existingTask = taskDbContext.tasks.Find(id);
-           
-
-                if (existingTask == null)
-                {
-                    return new Responce
-                    {
-                        Message = "Task not found"
-                    };
-                }
-
-                // Update the task
-                existingTask.TaskName = task.TaskName;
-                existingTask.Description = task.Description;
-                existingTask.DueDate = task.DueDate;
-                existingTask.Priority = task.Priority;
-                existingTask.AssignedTo = task.AssignedTo;
-                taskDbContext.tasks.Update(existingTask);
-                taskDbContext.SaveChanges();
-
-                return new Responce
-                {
-                    Message = "Task updated successfully"
-                };
-            }
-            catch (Exception ex)
-            {
-                // Log the exception (logging mechanism not shown here)
-                return new Responce
-                {
-                    Message = $"An error occurred while updating the task: {ex.Message}"
-                };
-            }
+                Message = "Task Update Succesfully"
+            };
         }
-
+           
 
 
         // DELETE: api/tasks/5
